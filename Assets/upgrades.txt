@@ -1,0 +1,440 @@
+0
+1
+100
+name 8
+The mouse gains +1 cookie per click / miners gain +0.1 base CpS
+0
+1
+400
+name 9
+The mouse and miners are twice as efficient
+0
+10
+10000
+name 10
+The mouse and miners are twice as efficient
+0
+20
+500000
+name 11
+The mouse and miners gain +0.1cookies for each non-miner object owned
+0
+40
+50000000
+name 12
+The mouse and miners gain +0.5cookies for each non-miner object owned
+0
+80
+500000000
+name 13
+The mouse and miners gain +2cookies for each non-miner object owned
+0
+120
+5000000000
+name 14
+The mouse and miners gain +10cookies for each non-miner object owned
+0
+160
+50000000000
+name 15
+The mouse and miners gain +20cookies for each non-miner object owned
+0
+200
+50000000000000
+name 16
+The mouse and miners gain +100cookies for each non-miner object owned
+0
+240
+500000000000000
+name 17
+The mouse and miners gain +200cookies for each non-miner object owned
+0
+280
+5000000000000000
+name 18
+The mouse and miners gain +400cookies for each non-miner object owned
+0
+320
+50000000000000000
+name 19
+The mouse and miners gain +800cookies for each non-miner object owned
+1
+1
+1000
+name 20
+Grandmas gain +0.3 base CpS
+1
+1
+10000
+name 21
+Grandmas are twice as efficient
+1
+10
+100000
+name 22
+Grandmas are twice as efficient
+1
+50
+5000000
+name 23
+Grandmas are twice as efficient
+1
+100
+100000000
+name 24
+Grandmas are twice as efficient
+1
+200
+800000000000
+name 25
+Grandmas are twice as efficient
+1
+15
+50000
+name 26
+Grandmas are twice as efficient
+1
+15
+300000
+name 27
+Grandmas are twice as efficient
+1
+15
+1000000
+name 28
+Grandmas are twice as efficient
+1
+15
+4000000
+name 29
+Grandmas are twice as efficient
+1
+15
+20000000
+name 30
+Grandmas are twice as efficient
+1
+15
+166666600
+name 31
+Grandmas are twice as efficient
+1
+15
+12345678900
+name 32
+Grandmas are twice as efficient
+1
+15
+399999999900
+name 33
+Grandmas are twice as efficient
+1
+15
+7500000000000
+name 34
+Grandmas are twice as efficient
+2
+1
+5000
+name 35
+Farms gain +1 base CpS
+2
+1
+50000
+name 36
+Farms are twice as efficient
+2
+10
+500000
+name 37
+Farms are twice as efficient
+2
+50
+25000000
+name 38
+Farms are twice as efficient
+2
+100
+500000000
+name 39
+Farms are twice as efficient
+2
+200
+4000000000000
+name 40
+Farms are twice as efficient
+3
+1
+30000
+name 41
+Factories gain +4 base CpS
+3
+1
+300000
+name 42
+Factories are twice as efficient
+3
+10
+3000000
+name 43
+Factories are twice as efficient
+3
+50
+150000000
+name 44
+Factories are twice as efficient
+3
+100
+3000000000
+name 45
+Factories are twice as efficient
+3
+200
+24000000000000
+name 46
+Factories are twice as efficient
+4
+1
+100000
+name 47
+Mines gain +10 base CpS.
+4
+1
+1000000
+name 48
+Mines are twice as efficient.
+4
+10
+10000000
+name 49
+Mines are twice as efficient.
+4
+50
+500000000
+name 50
+Mines are twice as efficient.
+4
+100
+10000000000
+name 51
+Mines are twice as efficient.
+4
+200
+80000000000000
+name 52
+Mines are twice as efficient.
+5
+1
+400000
+name 53
+Shipments gain +30 base CpS.
+5
+1
+4000000
+name 54
+Shipments are twice as efficient.
+5
+10
+40000000
+name 55
+Shipments are twice as efficient.
+5
+50
+2000000000
+name 56
+Shipments are twice as efficient.
+5
+100
+40000000000
+name 57
+Shipments are twice as efficient.
+5
+200
+320000000000000
+name 58
+Shipments are twice as efficient.
+6
+1
+2000000
+name 59
+Alchemy labs gain +100 base CpS.
+6
+1
+20000000
+name 60
+Alchemy labs are twice as efficient.
+6
+10
+200000000
+name 61
+Alchemy labs are twice as efficient.
+6
+50
+10000000000
+name 62
+Alchemy labs are twice as efficient.
+6
+100
+200000000000
+name 63
+Alchemy labs are twice as efficient.
+6
+200
+1600000000000000
+name 64
+Alchemy labs are twice as efficient.
+7
+1
+16666660
+name 65
+Portals gain +1,666 base CpS.
+7
+1
+166666600
+name 66
+Portals are twice as efficient.
+7
+10
+1666666000
+name 67
+Portals are twice as efficient.
+7
+50
+83333300000
+name 68
+Portals are twice as efficient.
+7
+100
+1666666000000
+name 69
+Portals are twice as efficient.
+7
+200
+13333328000000000
+name 70
+Portals are twice as efficient.
+8
+1
+1234567890
+name 71
+Time machines gain +9,876base CpS.
+8
+1
+9876543210
+name 72
+Time machines are twice as efficient.
+8
+10
+98765456789
+name 73
+Time machines are twice as efficient.
+8
+50
+1234567890000
+name 74
+Time machines are twice as efficient.
+8
+100
+123456789000000
+name 75
+Time machines are twice as efficient.
+8
+200
+987654321000000000
+name 76
+Time machines are twice as efficient.
+9
+1
+39999999990
+name 77
+Antimatter condensers gain+99,999 base CpS.
+9
+1
+399999999900
+name 78
+Antimatter condensers aretwice as efficient.
+9
+10
+3999999999000
+name 79
+Antimatter condensers aretwice as efficient.
+9
+50
+199999999950000
+name 80
+Antimatter condensers aretwice as efficient.
+9
+100
+3999999999000000
+name 81
+Antimatter condensers aretwice as efficient.
+9
+200
+31999999992000000000
+name 82
+Antimatter condensers aretwice as efficient.
+10
+1
+750000000000
+name 83
+Prisms gain +1,000,000base CpS.
+10
+1
+7500000000000
+name 84
+Prisms are twice as efficient.
+10
+10
+75000000000000
+name 85
+Prisms are twice as efficient.
+10
+50
+3750000000000000
+name 86
+Prisms are twice as efficient.
+10
+100
+75000000000000000
+name 87
+Prisms are twice as efficient.
+10
+200
+600000000000000000000
+name 88
+Prisms are twice as efficient.
+11
+1000
+50000
+name 1
+Clicking gains +1% of your GpS
+11
+100000
+5000000
+name 2
+Clicking gains +1% of your GpS
+11
+10000000
+500000000
+name 3
+Clicking gains +1% of your GpS
+11
+1000000000
+50000000000
+name 4
+Clicking gains +1% of your GpS
+11
+100000000000
+5000000000000
+name 5
+Clicking gains +1% of your GpS
+11
+10000000000000
+500000000000000
+name 6
+Clicking gains +1% of your GpS
+11
+1000000000000000
+50000000000000000
+name 7
+Clicking gains +1% of your GpS
