@@ -10,14 +10,35 @@ public class HitMoveScript : MonoBehaviour {
 	public bool hitted = false;
 	public GameScript dataGame;
 
+	private float initialTime;
+	private Transform thisTrans, targetTrans;
+	public AudioSource musicTime;
+	float avance_por_tiempo;
+	public float timerOnRoad;
+	private float initialY;
+
+	public float segundos;
+
 	void Start () {
+		thisTrans = transform;
+		musicTime = GameObject.Find ("Main Camera").GetComponent<AudioSource> ();
+		targetTrans = GameObject.Find ("Blue_pad").transform;
+
+		initialTime = musicTime.time;
+		float dif = targetTrans.position.y - thisTrans.position.y;
+		avance_por_tiempo = (Mathf.Abs (dif) / segundos);
+		initialY = thisTrans.position.y;
+
 		dataGame = GameObject.Find ("Main Camera").GetComponent<GameScript> ();
 		listChange = GameObject.Find ("Spawner").GetComponent<SpawnScript> ();
 		targetPos = new Vector3 (transform.position.x, -10, transform.position.z);
 	}
 
 	void FixedUpdate () {
-		transform.position = Vector3.Lerp (transform.position, targetPos, Time.deltaTime * speed);
+		timerOnRoad = initialTime - musicTime.time;
+		transform.position = new Vector3(transform.position.x,
+		                                 initialY + (avance_por_tiempo * timerOnRoad),
+		                                 transform.position.z);
 
 		if (transform.position.y < -0.7f && !missed && !hitted) {
 			listChange.updateAnnoun();
