@@ -5,8 +5,9 @@ using UnityEngine.UI;
 using System.IO;
 
 public class SpawnScript : MonoBehaviour, AudioProcessor.AudioCallbacks {
-	public GameObject[] obj;
+	public GameObject obj;
 	public List<GameObject> spawnedList;
+	private List<int> enemyListColor, enemyListMonster;
 	public Text announcement_txt;
 	public List<byte> MIDIgoodnotes;
 	public Slider tempoSlider;
@@ -18,9 +19,36 @@ public class SpawnScript : MonoBehaviour, AudioProcessor.AudioCallbacks {
 	private int notasSalidas;
 	public float bpm, tempo, Padtempo;
 	public GameObject[] pads;
+	public GameObject[] enemies;
+	public Sprite[] monsters;
 	public Animator[] padsAnim;
+	public Slider playerHp;
 
 	void Start () {
+		enemyListColor = new List<int>();
+		enemyListMonster = new List<int>();
+		for (int i=0; i<5; i++) {
+			enemyListColor.Add(Random.Range(0,4));
+			enemyListMonster.Add(Random.Range(0,4));
+			enemies[i].GetComponent<SpriteRenderer>().sprite = monsters[enemyListMonster[i]];
+			Color monsterColor = new Color();
+			switch(enemyListColor[i]){
+			case 0:
+				monsterColor = Color.red;
+				break;
+			case 1:
+				monsterColor = Color.green;
+				break;
+			case 2:
+				monsterColor = Color.yellow;
+				break;
+			case 3:
+				monsterColor = Color.blue;
+				break;
+			}
+			enemies[i].GetComponent<SpriteRenderer>().color = monsterColor;
+		}
+
 		setTempos (bpm);
 		tiempoAux = 0;
 		tiempoEntreNotas = 0.5f;
@@ -40,6 +68,37 @@ public class SpawnScript : MonoBehaviour, AudioProcessor.AudioCallbacks {
 		}
 		beatPad ();
 		Spawn ();
+	}
+
+	public bool killEnemy(int color){
+		if (color == enemyListColor [0]) {
+			enemyListColor.RemoveAt (0);
+			enemyListMonster.RemoveAt (0);
+			enemyListColor.Add (Random.Range (0, 4));
+			enemyListMonster.Add (Random.Range (0, 4));
+
+			for (int i=0; i<5; i++) {
+				enemies [i].GetComponent<SpriteRenderer> ().sprite = monsters [enemyListMonster [i]];
+				Color monsterColor = new Color ();
+				switch (enemyListColor [i]) {
+				case 0:
+					monsterColor = Color.red;
+					break;
+				case 1:
+					monsterColor = Color.green;
+					break;
+				case 2:
+					monsterColor = Color.yellow;
+					break;
+				case 3:
+					monsterColor = Color.blue;
+					break;
+				}
+				enemies [i].GetComponent<SpriteRenderer> ().color = monsterColor;
+			}
+			return true;
+		} else
+			return false;
 	}
 
 	private void setTempos(float bmp){
@@ -111,6 +170,7 @@ public class SpawnScript : MonoBehaviour, AudioProcessor.AudioCallbacks {
 	public void updateAnnoun(){
 		announcement_txt.color = Color.red;
 		announcement_txt.text = "MISS!";
+		playerHp.value--;
 	}
 
 	public void onOnbeatDetected()
@@ -142,24 +202,8 @@ public class SpawnScript : MonoBehaviour, AudioProcessor.AudioCallbacks {
 	void Spawn () {
 		int rando = 0;
 		int randoPos = Random.Range(1,5);
-		Vector3 spawnPos = transform.position;
 
-		switch (randoPos) {
-		case 2:
-			spawnPos = new Vector3 (transform.position.x + 0.4f, transform.position.y, transform.position.z);
-			rando = 1;
-			break;
-		case 3:
-			spawnPos = new Vector3 (transform.position.x + 1.03f, transform.position.y, transform.position.z);
-			rando = 2;
-			break;
-		case 4:
-			spawnPos = new Vector3 (transform.position.x + 1.43f, transform.position.y, transform.position.z);
-			rando = 3;
-			break;
-		}
-
-		GameObject spawned = Instantiate (obj [rando], spawnPos, Quaternion.identity) as GameObject;
+		GameObject spawned = Instantiate (obj, transform.position, Quaternion.identity) as GameObject;
 		spawnedList.Add (spawned);
 
 		//dingSound.Play();
