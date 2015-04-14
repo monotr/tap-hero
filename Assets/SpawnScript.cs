@@ -6,7 +6,7 @@ using System.IO;
 
 public class SpawnScript : MonoBehaviour, AudioProcessor.AudioCallbacks {
 	public GameObject obj;
-	public List<GameObject> spawnedList;
+	//public List<GameObject> spawnedList;
 	private List<int> enemyListColor, enemyListMonster;
 	public Text announcement_txt;
 	public List<byte> MIDIgoodnotes;
@@ -23,8 +23,17 @@ public class SpawnScript : MonoBehaviour, AudioProcessor.AudioCallbacks {
 	public Sprite[] monsters;
 	public Animator[] padsAnim;
 	public Slider playerHp;
+	public float tiempoPasado;
+	public float tiempoAtaque;
+	public int beatsAttack;
+	private List<bool> tiempoSpawn;
+	private int auxSpawn, auxaCount;
+	private float bps;
+	private int totalBeatsOnTime;
+	public AudioSource audio;
 
 	void Start () {
+		tiempoSpawn = new List<bool>();
 		enemyListColor = new List<int>();
 		enemyListMonster = new List<int>();
 		for (int i=0; i<5; i++) {
@@ -52,22 +61,38 @@ public class SpawnScript : MonoBehaviour, AudioProcessor.AudioCallbacks {
 		setTempos (bpm);
 		tiempoAux = 0;
 		tiempoEntreNotas = 0.5f;
-		//Invoke ("playMusic", 3.0f);
-		spawnedList = new List<GameObject>();
+		//spawnedList = new List<GameObject>();
 
 		for (int i=0; i<pads.Length; i++) {
 			padsAnim[i] = pads[i].GetComponent<Animator>();
 		}
-
-		byte[] MIDI = File.ReadAllBytes("test2.mid");
-		for(int i=0;i<MIDI.Length;i++){
-			if(MIDI[i]==144) {
-				MIDIgoodnotes.Add(MIDI[i+1]);
-				//print(MIDI[i+1]);  //This is the note value
-			}
-		}
 		beatPad ();
+		attackReceived (bpm, beatsAttack, tiempoAtaque);
 		Spawn ();
+	}
+
+	
+	void attackReceived(float bpm, int totalBeats, float tiempo){
+		bps = bpm / 60;
+		float beatTime = 1 / bps;
+		int contador = 0;
+		List<int> pos = new List<int> ();
+		totalBeatsOnTime = (int)(tiempo * bps);
+
+		while (pos.Count < totalBeats) {
+			pos.Add(Random.Range(0,totalBeatsOnTime));
+			pos.Distinct();
+		}
+
+		while (contador < totalBeatsOnTime) {
+			if(!pos.Contains(contador))
+				tiempoSpawn.Add(false);
+			else{
+				tiempoSpawn.Add(true);
+			}
+			contador ++;
+		}
+		print (tiempoSpawn.Count);
 	}
 
 	public bool killEnemy(int color){
@@ -107,9 +132,10 @@ public class SpawnScript : MonoBehaviour, AudioProcessor.AudioCallbacks {
 	}
 
 	public void Update(){
+
 		//print ("music: " + musica.time + " beat: " + beatmusic.time);
 
-		float[] spectrum = beatmusic.GetSpectrumData(1024, 0, FFTWindow.Hamming);
+		/*float[] spectrum = beatmusic.GetSpectrumData(1024, 0, FFTWindow.Hamming);
 		int i = 1;
 		while (i < 1023) {
 			Debug.DrawLine(new Vector3(i - 1, spectrum[i] + 10, 0), new Vector3(i, spectrum[i + 1] + 10, 0), Color.red);
@@ -117,7 +143,7 @@ public class SpawnScript : MonoBehaviour, AudioProcessor.AudioCallbacks {
 			Debug.DrawLine(new Vector3(Mathf.Log(i - 1), spectrum[i - 1] - 10, 1), new Vector3(Mathf.Log(i), spectrum[i] - 10, 1), Color.green);
 			Debug.DrawLine(new Vector3(Mathf.Log(i - 1), Mathf.Log(spectrum[i - 1]), 3), new Vector3(Mathf.Log(i), Mathf.Log(spectrum[i]), 3), Color.yellow);
 			i++;
-		}
+		}*/
 		//print (spectum.Length);
 
 		if (!musica.isPlaying && beatmusic.time >= 3)
@@ -175,12 +201,9 @@ public class SpawnScript : MonoBehaviour, AudioProcessor.AudioCallbacks {
 
 	public void onOnbeatDetected()
 	{
-		Debug.Log("Beat!!!");
+		//Debug.Log("Beat!!!");
 
-		if (notasSalidas < 1) {
-			//Spawn ();
-			notasSalidas = 0;
-		}
+		//Spawn ();
 	}
 
 
@@ -200,14 +223,26 @@ public class SpawnScript : MonoBehaviour, AudioProcessor.AudioCallbacks {
 	}
 	
 	void Spawn () {
-		int rando = 0;
-		int randoPos = Random.Range(1,5);
-
-		GameObject spawned = Instantiate (obj, transform.position, Quaternion.identity) as GameObject;
-		spawnedList.Add (spawned);
-
+		//print ("Beat");
+		if (tiempoSpawn[auxSpawn]) {
+			GameObject spawned = Instantiate (obj, transform.position, Quaternion.identity) as GameObject;
+			audio.pitch = Random.Range(1,3);
+			audio.Play ();
+			//spawnedList.Add (spawned);
+		}
+		auxSpawn++;
+		if (auxSpawn == tiempoSpawn.Count) {
+			tiempoAtaque = Random.Range(1,20);
+			beatsAttack = (int)(Random.Range(tiempoAtaque, tiempoAtaque * bps));
+			tiempoSpawn = new List<bool>();
+			attackReceived (bpm, beatsAttack, tiempoAtaque);
+			auxSpawn = 0;
+		}
+		if(Random.Range(0,3) == 2)
+			Invoke ("Spawn", Padtempo / 2);
+		else
+			Invoke ("Spawn", Padtempo);
 		//dingSound.Play();
-		Invoke ("Spawn", tempo);
 	}
 
 	private void beatPad(){
@@ -217,5 +252,8 @@ public class SpawnScript : MonoBehaviour, AudioProcessor.AudioCallbacks {
 		}
 		////
 		Invoke ("beatPad", Padtempo);
+
+		//Invoke ("beatPad", tempo);
+
 	}
 }

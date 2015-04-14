@@ -47,7 +47,7 @@ public class HitMoveScript : MonoBehaviour {
 			dataGame.combo_txt.text = "COMBO: " + 0;
 		}
 		if (transform.position.y < -10+4) {
-			listChange.spawnedList.Remove(this.gameObject);
+			//listChange.spawnedList.Remove(this.gameObject);
 			Destroy (this.gameObject);
 		}
 	}
