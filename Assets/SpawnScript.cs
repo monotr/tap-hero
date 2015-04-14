@@ -226,7 +226,7 @@ public class SpawnScript : MonoBehaviour, AudioProcessor.AudioCallbacks {
 		//print ("Beat");
 		if (tiempoSpawn[auxSpawn]) {
 			GameObject spawned = Instantiate (obj, transform.position, Quaternion.identity) as GameObject;
-			audio.pitch = Random.Range(1,3);
+			//audio.pitch = Random.Range(1,3);
 			audio.Play ();
 			//spawnedList.Add (spawned);
 		}

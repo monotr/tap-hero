@@ -217,7 +217,7 @@ public class GameScript : MonoBehaviour {
 
 
 	void PadHitted(Vector3 padPos, GameObject hitted){
-			audio.pitch = Random.Range (-1,2);
+			//audio.pitch = Random.Range (-1,2);
 		audio.Play ();
 		Vector3 hitPos = hitted.transform.position;
 			float dif = Mathf.Abs(hitted.GetComponent<HitMoveScript> ().timerOnRoad) -
