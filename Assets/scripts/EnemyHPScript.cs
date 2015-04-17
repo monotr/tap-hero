@@ -11,8 +11,7 @@ public class EnemyHPScript : MonoBehaviour {
 	public Sprite[] monsters;
 	public Text damageGiven;
 
-	public Text roundtext;
-	private int round;
+
 	private float timerAnim = 0.5f;
 	public float timerAux;
 	private bool animAct = false;
@@ -20,8 +19,7 @@ public class EnemyHPScript : MonoBehaviour {
 
 	void Start () {
 		animator = this.GetComponent<Animator> ();
-		round = 1;
-		roundtext.text = round + "/10";
+
 		thisSprite = this.GetComponent<SpriteRenderer> ();
 		hpBarUI.maxValue = enemyHP;
 		hpBarUI.value = enemyHP;
@@ -65,15 +63,7 @@ public class EnemyHPScript : MonoBehaviour {
 			enemyHP = hpBarUI.maxValue;
 			thisSprite.sprite = monsters[Random.Range(0, monsters.Length)];
 
-			round ++;
-			if(round<10)
-				roundtext.text = round + "/10";
-			else if(round == 10)
-				roundtext.text = "BOSS FIGHT";
-			else if(round == 11){
-				round = 1;
-				roundtext.text = round + "/10";
-			}
+
 
 			//thisSprite.color = new Color(Random.Range(0,2), Random.Range(0,2), Random.Range(0,2));
 		}

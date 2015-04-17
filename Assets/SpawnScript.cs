@@ -31,6 +31,7 @@ public class SpawnScript : MonoBehaviour, AudioProcessor.AudioCallbacks {
 	private float bps;
 	private int totalBeatsOnTime;
 	public AudioSource audio;
+	public float segundos;
 
 	void Start () {
 		tiempoSpawn = new List<bool>();
@@ -225,21 +226,25 @@ public class SpawnScript : MonoBehaviour, AudioProcessor.AudioCallbacks {
 	void Spawn () {
 		//print ("Beat");
 		if (tiempoSpawn[auxSpawn]) {
-			GameObject spawned = Instantiate (obj, transform.position, Quaternion.identity) as GameObject;
+			Instantiate (obj, transform.position, Quaternion.identity);
 			//audio.pitch = Random.Range(1,3);
-			audio.Play ();
+			//audio.Play ();
 			//spawnedList.Add (spawned);
 		}
 		auxSpawn++;
+		int rando = Random.Range (0, 9);
 		if (auxSpawn == tiempoSpawn.Count) {
 			tiempoAtaque = Random.Range(1,20);
 			beatsAttack = (int)(Random.Range(tiempoAtaque, tiempoAtaque * bps));
 			tiempoSpawn = new List<bool>();
 			attackReceived (bpm, beatsAttack, tiempoAtaque);
 			auxSpawn = 0;
+			Invoke ("Spawn", segundos*1.25f);
 		}
-		if(Random.Range(0,3) == 2)
+		else if(rando > 2 && rando < 6)
 			Invoke ("Spawn", Padtempo / 2);
+		else if(rando > 6 && rando < 8)
+			Invoke ("Spawn", Padtempo / 3);
 		else
 			Invoke ("Spawn", Padtempo);
 		//dingSound.Play();

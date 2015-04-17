@@ -4,7 +4,7 @@ using System.Collections;
 public class HitMoveScript : MonoBehaviour {
 	private Vector3 targetPos;
 	public float speed;
-	private SpawnScript listChange;
+	public SpawnScript listChange;
 	public int colorHit;
 	private bool missed = false;
 	public bool hitted = false;
@@ -17,20 +17,25 @@ public class HitMoveScript : MonoBehaviour {
 	public float timerOnRoad;
 	private float initialY;
 
-	public float segundos;
+	private AudioSource note;
+	public AudioClip[] notes;
 
 	void Start () {
 		thisTrans = transform;
+		note = this.GetComponent<AudioSource> ();
+		note.clip = notes[Random.Range(0,notes.Length)];
+		note.Play ();
+
 		musicTime = GameObject.Find ("Main Camera").GetComponent<AudioSource> ();
 		targetTrans = GameObject.Find ("Blue_pad").transform;
+		dataGame = GameObject.Find ("Main Camera").GetComponent<GameScript> ();
+		listChange = GameObject.Find ("Spawner").GetComponent<SpawnScript> ();
 
 		initialTime = musicTime.time;
 		float dif = targetTrans.position.y - thisTrans.position.y;
-		avance_por_tiempo = (Mathf.Abs (dif) / segundos);
+		avance_por_tiempo = (Mathf.Abs (dif) / listChange.segundos);
 		initialY = thisTrans.position.y;
 
-		dataGame = GameObject.Find ("Main Camera").GetComponent<GameScript> ();
-		listChange = GameObject.Find ("Spawner").GetComponent<SpawnScript> ();
 		targetPos = new Vector3 (transform.position.x, -10, transform.position.z);
 	}
 

@@ -19,6 +19,9 @@ public class GameScript : MonoBehaviour {
 	public AudioSource audio;
 	public int lastColorL, lastColorR;
 
+	public Text roundtext;
+	private int round;
+
 	private float blueKilled, redKilled, greenKilled, yellowKilled;
 	public float maxBlueCircle, maxRedCircle, maxGreenCircle, maxYellowCircle;
 	private float currBlueCircle, currRedCircle, currGreenCircle, currYellowCircle;
@@ -32,6 +35,9 @@ public class GameScript : MonoBehaviour {
 		handAnimsR = rightHand.GetComponent<Animator>();
 		handAnimsL = leftHand.GetComponent<Animator>();
 
+		round = 1;
+		roundtext.text = round + "/10";
+
 		perfects = greats = almosts = boos = 0;
 
 		listChange = GameObject.Find ("Spawner").GetComponent<SpawnScript> ();
@@ -40,28 +46,6 @@ public class GameScript : MonoBehaviour {
 
 
 	void Update () {
-
-		if (Input.GetKeyDown (KeyCode.A)) {
-			switch(posManoL){
-			case 0:
-				handAnimsL.SetTrigger("m2a1");
-				break;
-			case 1:
-				handAnimsL.SetTrigger("m1a1");
-				break;
-			case 2:
-				handAnimsL.SetTrigger("m1a2");
-				break;
-			case 3:
-				handAnimsL.SetTrigger("m2a2");
-				break;
-			}
-			posManoL++;
-			if(posManoL==4)
-				posManoL = 0;
-
-		}
-
 		#if UNITY_ANDROID && !UNITY_EDITOR
 		if (Input.touchCount == 1){
 			//Ray ray = Camera.main.ScreenPointToRay(Input.GetTouch (0).position);
@@ -73,155 +57,147 @@ public class GameScript : MonoBehaviour {
 			//Ray ray2 = Camera.main.ScreenPointToRay (Input.mousePosition);
 			hits = Physics.RaycastAll(Camera.main.ScreenPointToRay(Input.mousePosition),Mathf.Infinity);
 		#endif
-
+	
 		//if (Physics.RaycastAll (ray, out hits)) {
 
-				print (hits.Length);
+		print (hits.Length);
 
-		if(hits.Length == 1){
+		if (hits.Length == 1) {
 			score -= 1;
 			announce_txt.color = Color.red;
 			announce_txt.text = "MISS!";
 			combo = 0;
 			playerHp.value--;
-		}
-		else if(hits.Length == 2){
-			if(hits[0].collider.tag == "Pad" && hits[1].collider.tag == "Hits"){
-						switch(hits[0].collider.name){
-						case "Red_pad":
-							switch(lastColorL){
-							case 2:
-								handAnimsL.SetTrigger("m2a2");
-								lastColorL = 1;
-								break;
-							case 1:
-								handAnimsL.SetTrigger("m1a2");
-								lastColorL = 1;
-								break;
-							}
-							padColor = 0;
-							break;
-						case "Green_pad":
-							switch(lastColorR){
-							case 3:
-								handAnimsR.SetTrigger("m1a2");
-								lastColorR = 4;
-								break;
-							case 4:
-								handAnimsR.SetTrigger("m2a2");
-								lastColorR = 4;
-								break;
-							}
-							padColor = 1;
-							break;
-						case "Yellow_pad":
-							switch(lastColorL){
-							case 2:
-								handAnimsL.SetTrigger("m2a1");
-								lastColorL = 1;
-								break;
-							case 1:
-								handAnimsL.SetTrigger("m1a1");
-								lastColorL = 1;
-								break;
-							}
-							padColor = 2;
-							break;
-						case "Blue_pad":
-							switch(lastColorR){
-							case 3:
-								handAnimsR.SetTrigger("m1a1");
-								lastColorR = 3;
-								break;
-							case 4:
-								handAnimsR.SetTrigger("m2a1");
-								lastColorR = 3;
-								break;
-							}
-							padColor = 3;
-							break;
-						}
+		} else if (hits.Length == 2) {
+			if (hits [0].collider.tag == "Pad" && hits [1].collider.tag == "Hits") {
+				switch (hits [0].collider.name) {
+				case "Red_pad":
+					switch (lastColorL) {
+					case 2:
+						handAnimsL.SetTrigger ("m2a2");
+						lastColorL = 1;
+						break;
+					case 1:
+						handAnimsL.SetTrigger ("m1a2");
+						lastColorL = 1;
+						break;
+					}
+					padColor = 0;
+					break;
+				case "Green_pad":
+					switch (lastColorR) {
+					case 3:
+						handAnimsR.SetTrigger ("m1a2");
+						lastColorR = 4;
+						break;
+					case 4:
+						handAnimsR.SetTrigger ("m2a2");
+						lastColorR = 4;
+						break;
+					}
+					padColor = 1;
+					break;
+				case "Yellow_pad":
+					switch (lastColorL) {
+					case 2:
+						handAnimsL.SetTrigger ("m2a1");
+						lastColorL = 1;
+						break;
+					case 1:
+						handAnimsL.SetTrigger ("m1a1");
+						lastColorL = 1;
+						break;
+					}
+					padColor = 2;
+					break;
+				case "Blue_pad":
+					switch (lastColorR) {
+					case 3:
+						handAnimsR.SetTrigger ("m1a1");
+						lastColorR = 3;
+						break;
+					case 4:
+						handAnimsR.SetTrigger ("m2a1");
+						lastColorR = 3;
+						break;
+					}
+					padColor = 3;
+					break;
+				}
 
-						Vector3 hitpadPos = hits[0].collider.transform.position;
-				GameObject hittedHit = hits[1].collider.gameObject;
+				Vector3 hitpadPos = hits [0].collider.transform.position;
+				GameObject hittedHit = hits [1].collider.gameObject;
 				PadHitted (hitpadPos, hittedHit);
-			}
-			else if(hits[1].collider.tag == "Pad" && hits[0].collider.tag == "Hits"){
-						switch(hits[1].collider.name){
-						case "Red_pad":
-							switch(lastColorL){
-							case 2:
-								handAnimsL.SetTrigger("m2a2");
-								lastColorL = 1;
-								break;
-							case 1:
-								handAnimsL.SetTrigger("m1a2");
-								lastColorL = 1;
-								break;
-							}
-							padColor = 0;
-							break;
-						case "Green_pad":
-							switch(lastColorR){
-							case 3:
-								handAnimsR.SetTrigger("m1a2");
-								lastColorR = 4;
-								break;
-							case 4:
-								handAnimsR.SetTrigger("m2a2");
-								lastColorR = 4;
-								break;
-							}
-							padColor = 1;
-							break;
-						case "Yellow_pad":
-							switch(lastColorL){
-							case 2:
-								handAnimsL.SetTrigger("m2a1");
-								lastColorL = 1;
-								break;
-							case 1:
-								handAnimsL.SetTrigger("m1a1");
-								lastColorL = 1;
-								break;
-							}
-							padColor = 2;
-							break;
-						case "Blue_pad":
-							switch(lastColorR){
-							case 3:
-								handAnimsR.SetTrigger("m1a1");
-								lastColorR = 3;
-								break;
-							case 4:
-								handAnimsR.SetTrigger("m2a1");
-								lastColorR = 3;
-								break;
-							}
-							padColor = 3;
-							break;
-						}
-				Vector3 hitpadPos = hits[1].collider.transform.position;
-				GameObject hittedHit = hits[0].collider.gameObject;
+			} else if (hits [1].collider.tag == "Pad" && hits [0].collider.tag == "Hits") {
+				switch (hits [1].collider.name) {
+				case "Red_pad":
+					switch (lastColorL) {
+					case 2:
+						handAnimsL.SetTrigger ("m2a2");
+						lastColorL = 1;
+						break;
+					case 1:
+						handAnimsL.SetTrigger ("m1a2");
+						lastColorL = 1;
+						break;
+					}
+					padColor = 0;
+					break;
+				case "Green_pad":
+					switch (lastColorR) {
+					case 3:
+						handAnimsR.SetTrigger ("m1a2");
+						lastColorR = 4;
+						break;
+					case 4:
+						handAnimsR.SetTrigger ("m2a2");
+						lastColorR = 4;
+						break;
+					}
+					padColor = 1;
+					break;
+				case "Yellow_pad":
+					switch (lastColorL) {
+					case 2:
+						handAnimsL.SetTrigger ("m2a1");
+						lastColorL = 1;
+						break;
+					case 1:
+						handAnimsL.SetTrigger ("m1a1");
+						lastColorL = 1;
+						break;
+					}
+					padColor = 2;
+					break;
+				case "Blue_pad":
+					switch (lastColorR) {
+					case 3:
+						handAnimsR.SetTrigger ("m1a1");
+						lastColorR = 3;
+						break;
+					case 4:
+						handAnimsR.SetTrigger ("m2a1");
+						lastColorR = 3;
+						break;
+					}
+					padColor = 3;
+					break;
+				}
+				Vector3 hitpadPos = hits [1].collider.transform.position;
+				GameObject hittedHit = hits [0].collider.gameObject;
 				PadHitted (hitpadPos, hittedHit);
 			}
 		}
-		//}
-		}
-			if (!GetComponent<AudioSource> ().isPlaying)
-			print ("music off");
 	}
-	void setColors(){
-
-		}
+			}
 
 
 	void PadHitted(Vector3 padPos, GameObject hitted){
-			//audio.pitch = Random.Range (-1,2);
+		//audio.pitch = Random.Range (-1,2);
 		audio.Play ();
 		Vector3 hitPos = hitted.transform.position;
 			float dif = Mathf.Abs(hitted.GetComponent<HitMoveScript> ().timerOnRoad) -
-				hitted.GetComponent<HitMoveScript> ().segundos;
+				hitted.GetComponent<HitMoveScript> ().listChange.segundos;
 
 	//print ("hit time: " + Mathf.Abs(hitted.GetComponent<HitMoveScript> ().timerOnRoad) +
 	//	" segundos: " + hitted.GetComponent<HitMoveScript> ().segundos +
@@ -260,6 +236,17 @@ public class GameScript : MonoBehaviour {
 			float scaleColor = 0;
 
 			if (listChange.killEnemy (padColor)) {
+				round ++;
+				if(round<10)
+					roundtext.text = round + "/10";
+				else if(round == 10)
+					roundtext.text = "BOSS FIGHT";
+				else if(round == 11){
+					round = 1;
+					roundtext.text = round + "/10";
+				}
+
+
 				switch(padColor){
 				case 0: //r
 					currRedCircle++;
